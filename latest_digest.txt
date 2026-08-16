@@ -1,25 +1,29 @@
 <b>🛰️ Aerospace Opportunities Digest — 2026-08-16</b>
 
 <b>🎓 Internships &amp; Student Opportunities</b>
-• <a href="https://www.nasa.gov/careers/pathways/">Pathways Internships</a>
-  <i>NASA Pathways Internships offer students paid work experience at NASA centers. Applications are open for current students.</i>
-• <a href="https://www.nasa.gov/centers-and-facilities/johnson/nasa-johnson-interns-shaping-the-future-of-exploration/">Article 7 Min Read NASA Johnson Interns Shaping the Future of Exploration</a>
-  <i>A NASA Johnson article highlights interns shaping the future of exploration. It showcases the impactful work of NASA interns.</i>
-• <a href="https://www.nasa.gov/learning-resources/tips-to-craft-standout-internship-application/">3 Min Read 5 Tips to Craft a Standout NASA Internship Application Article</a>
-  <i>This article provides five tips to craft a standout NASA internship application. It is a guide for prospective applicants.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy_Experiments_programme/Announcement_of_opportunity_for_the_ESA_Academy_Experiments_Programme_2026-2027">Story Agency Announcement of opportunity for the ESA Academy Experiments… 03/08/2026 1976 views 6 likes Read</a>
-  <i>ESA Academy has announced an opportunity for the ESA Academy Experiments programme. The deadline is 03/08/2026.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy/Apply_now_to_the_ESA_Academy_s_Mission_Success_through_Product_Assurance_Training_Course_2026">Story Agency Apply now to the ESA Academy’s Mission Success through Prod… 27/07/2026 1857 views 4 likes Read</a>
-  <i>ESA Academy is accepting applications for Mission Success through Product Assurance training. The deadline is 27/07/2026.</i>
-• <a href="https://www.esa.int/Applications/Satellite_navigation/From_system_to_signal_at_ESA_s_Navigation_Training_Course">Story Applications From system to signal at ESA’s Navigation Training Course 20/07/2026 725 views 10 likes Read</a>
-  <i>Applications are open for ESA's Navigation Training Course, covering system to signal topics. The deadline is 20/07/2026.</i>
+• <a href="https://www.nasa.gov/learning-resources/nasa-stem-opportunities-activities/">NASA STEM Opportunities and Activities For Students</a>
+  <i>NASA STEM Opportunities and Activities for Students provides a central hub for student engagement. It lists various programs and resources for learners interested in space and science.</i>
+• <a href="https://www.nasa.gov/learning-resources/nasa-internship-programs/">Internships and Fellowships</a>
+  <i>Internships and Fellowships at NASA offer paid opportunities for students to work on real projects. These programs are open to high school, undergraduate, and graduate students.</i>
+• <a href="https://www.nasa.gov/learning-resources/national-space-grant-college-and-fellowship-project/">Space Grant</a>
+  <i>Space Grant is a NASA-funded program that supports students through scholarships, fellowships, and internships. It operates through a national network of consortia in each state.</i>
+• <a href="https://www.esa.int/Education/ESA_Academy/ESA_Academy_opportunities3">Highlight Agency Current opportunities for university students Open</a>
+  <i>Highlight Agency Current opportunities for university students are open for applications. This listing includes various internships and programs for university-level students.</i>
+• <a href="https://www.esa.int/Education/ESA_Academy/ESA_Training_Programme_Application_procedure">ESA Training Programme Application procedure</a>
+  <i>The ESA Training Programme application procedure outlines steps for students to apply. It covers eligibility and required documents for training opportunities.</i>
+• <a href="https://www.esa.int/Education/ESA_Academy/Training_Future_Opportunities">Training Future opportunities</a>
+  <i>Training Future opportunities at ESA lists upcoming programs for students and young professionals. These include internships and other educational placements.</i>
+• <a href="https://www.iist.ac.in/summer-internship">Internship &amp; Student Visits</a>
+  <i>Internship &amp; Student Visits at ESA provide hands-on experience in space projects. These visits are designed for students to learn about agency operations.</i>
 
 <b>🏆 Competitions &amp; Hackathons</b>
-• <a href="https://www.nasa.gov/directorates/stmd/prizes-challenges-crowdsourcing-program/nasa-competition-invites-students-to-help-imagine-a-future-enabled-by-lunar-technologies/">NASA Competition Invites Students to Help Imagine a Future Enabled by Lunar Technologies</a>
-  <i>NASA has opened a competition inviting students to imagine a future enabled by lunar technologies. This is a student-focused challenge.</i>
-• <a href="https://www.esa.int/Education/CanSat/CanSat_2025-2026_Challenge_your_students_to_build_a_can-sized_satellite">Story Agency CanSat 2025-2026: Challenge your students to build a can-si… 15/09/2025 19921 views 58 likes Read</a>
-  <i>The CanSat 2025-2026 competition challenges students to build a can-sized satellite. The announcement was made on 15/09/2025.</i>
+• <a href="https://www.esa.int/Education/CanSat/CanSat_Space_Engineer_for_a_Day_2026_event_inspires_next_space_generation">Story Agency CanSat Space Engineer for a Day 2026 event inspires next sp… 22/06/2026 826 views 20 likes Read</a>
+  <i>The CanSat Space Engineer for a Day 2026 event inspires students to design and build can-sized satellites. It is scheduled for 22/06/2026 and encourages participation in space engineering.</i>
+• <a href="https://www.esa.int/Education/Teachers_Corner/Build_your_can-sized_satellite_with_CanSat_2024-2025">Story Agency Build your can-sized satellite with CanSat 2024-2025 17/09/2024 10100 views 12 likes Read</a>
+  <i>Build your can-sized satellite with CanSat 2024-2025 is a competition for students to create functional satellites in a can. The event ran from 17/09/2024 and attracted significant interest.</i>
+• <a href="https://cansat.esa.int/">Join CanSat</a>
+  <i>Join CanSat to participate in a hands-on satellite building challenge. This competition is open to student teams and provides a practical introduction to space technology.</i>
 
 <b>📅 Conferences &amp; Upcoming Events</b>
-• <a href="https://www.esa.int/Education/ESA_Academy/Symposium_on_Space_Education_Activities">Symposium on Space Educational Activities</a>
-  <i>The Symposium on Space Educational Activities is an upcoming event. It focuses on space education.</i>
+• <a href="https://drdo.gov.in/drdo/en/resources/conference">Conference</a>
+  <i>Conference is a general listing for upcoming aerospace-related conferences. It serves as a placeholder for event details and registration information.</i>
