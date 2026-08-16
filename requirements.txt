@@ -1,0 +1,13 @@
+# HTTP client (scraping + Telegram API)
+httpx
+# RSS/Atom parsing
+feedparser
+# HTML scraping
+beautifulsoup4
+# Google Sheets
+gspread
+google-auth
+# DeepSeek (OpenAI-compatible SDK)
+openai
+# Local .env loading
+python-dotenv

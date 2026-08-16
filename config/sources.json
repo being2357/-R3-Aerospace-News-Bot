@@ -1,0 +1,75 @@
+{
+  "sources": [
+    {
+      "id": "spacenews",
+      "name": "SpaceNews",
+      "type": "rss",
+      "url": "https://spacenews.com/feed/",
+      "category": "aerospace"
+    },
+    {
+      "id": "nasa_breaking",
+      "name": "NASA Breaking News",
+      "type": "rss",
+      "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+      "category": "aerospace"
+    },
+    {
+      "id": "esa",
+      "name": "ESA News",
+      "type": "rss",
+      "url": "https://www.esa.int/rssfeed",
+      "category": "aerospace"
+    },
+    {
+      "id": "space_com",
+      "name": "Space.com",
+      "type": "rss",
+      "url": "https://www.space.com/feeds/all",
+      "category": "aerospace"
+    },
+    {
+      "id": "flightglobal",
+      "name": "FlightGlobal",
+      "type": "web",
+      "url": "https://www.flightglobal.com/",
+      "category": "aeronautics",
+      "css_selectors": {
+        "link": "a[href*='/news']",
+        "title": "h3"
+      }
+    },
+    {
+      "id": "aviation_week",
+      "name": "Aviation Week",
+      "type": "web",
+      "url": "https://aviationweek.com/",
+      "category": "aeronautics",
+      "css_selectors": {
+        "link": "a[href*='/news']",
+        "title": "h2"
+      }
+    },
+    {
+      "id": "nasa_space_apps",
+      "name": "NASA Space Apps Challenge",
+      "type": "web",
+      "url": "https://www.spaceappschallenge.org/",
+      "category": "competitions",
+      "css_selectors": {
+        "link": "a[href]",
+        "title": "h2"
+      }
+    },
+    {
+      "id": "aiaa_events",
+      "name": "AIAA Events",
+      "type": "web",
+      "url": "https://www.aiaa.org/events-learning/events",
+      "category": "competitions",
+      "css_selectors": {
+        "link": "a[href*='event']"
+      }
+    }
+  ]
+}
