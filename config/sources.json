@@ -84,5 +84,50 @@
       "url": "https://www.esa.int/rssfeed",
       "category": "internships"
     }
+  ,
+  {
+    "id": "isro_recent",
+    "name": "ISRO Recent Updates",
+    "type": "web",
+    "url": "https://www.isro.gov.in/recent_updates.html",
+    "category": "aerospace",
+    "css_selectors": {
+      "article": "div.recent_updates_item, tr, div.content",
+      "title": "a",
+      "link": "a"
+    }
+  },
+  {
+    "id": "drdo_media",
+    "name": "DRDO News & Opportunities",
+    "type": "web",
+    "url": "https://drdo.gov.in/drdo/en/media",
+    "category": "competitions",
+    "css_selectors": {
+      "article": "div.views-row, tr",
+      "title": "a",
+      "link": "a"
+    }
+  },
+  {
+    "id": "pib_defence",
+    "name": "PIB Defence News (ISRO & DRDO Releases)",
+    "type": "rss",
+    "url": "https://pib.gov.in/RssFeed.aspx?ModId=1&Lang=1",
+    "category": "aerospace"
+  },
+  {
+    "id": "iist_summer_internship",
+    "name": "IIST Summer Internship",
+    "type": "web",
+    "url": "https://www.iist.ac.in/summer-internship",
+    "category": "internships",
+    "css_selectors": {
+      "article": "div.content, table tr, p",
+      "title": "a",
+      "link": "a"
+    }
+  }
+
   ]
 }
