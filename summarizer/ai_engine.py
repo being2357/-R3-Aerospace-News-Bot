@@ -1,7 +1,10 @@
-"""DeepSeek-powered article summarization via the OpenAI-compatible SDK.
+"""DeepSeek classification + summarization via the OpenAI-compatible SDK.
 
 DeepSeek exposes an OpenAI-compatible API, so we initialize the OpenAI client
-with ``base_url="https://api.deepseek.com"``.
+with ``base_url="https://api.deepseek.com"``. The model is instructed to assign
+each article to exactly one of three strict sections and discard anything that
+does not fit; the engine returns a per-section digest keyed by the categories
+in ``models.ALLOWED_CATEGORIES``.
 """
 
 from __future__ import annotations
@@ -22,17 +25,34 @@ DEFAULT_MODEL = "deepseek-chat"
 MAX_ARTICLES_PER_CALL = 40  # keep each request well within context limits
 
 _SYSTEM_PROMPT = (
-    "You are a professional aerospace industry news editor. "
-    "Summarize each supplied article in exactly two concise, factual sentences "
-    "suitable for a daily digest. Do not invent facts. Respond with STRICT JSON "
-    "only (no markdown fences, no commentary) in this exact shape:\n"
-    '{"articles": [{"id": 0, "summary": "Two sentences."}]}\n'
-    "Include every article id exactly once."
+    "You are a strict editor compiling a daily digest of aerospace-adjacent "
+    "opportunities for students and young professionals. Classify each supplied "
+    "article into EXACTLY ONE of three sections:\n"
+    "  - 🎓 Internships & Student Opportunities\n"
+    "  - 🏆 Competitions & Hackathons\n"
+    "  - 📅 Conferences & Upcoming Events\n"
+    "Rules:\n"
+    "  1. If an article does not clearly fit one of these three categories, "
+    "DISCARD it completely — do not include it anywhere in the output.\n"
+    "  2. For every kept article, write exactly two concise, factual sentences. "
+    "Do not invent facts.\n"
+    "  3. Ignore navigation links, photo-of-the-day items, general space news, "
+    "exoplanet discoveries, and historical anniversaries.\n"
+    "Respond with STRICT JSON only (no markdown fences, no commentary) in this "
+    "exact shape:\n"
+    '{"internships":[{"id":0,"summary":"Two sentences."}],'
+    '"competitions":[{"id":1,"summary":"Two sentences."}],'
+    '"conferences":[{"id":2,"summary":"Two sentences."}]}\n'
+    "Each kept article id appears in exactly one section; discarded ids are "
+    "simply omitted. The three top-level keys must always be present, even if "
+    "their arrays are empty."
+    "DISCARD all general news for example rocket launches, exoplanet discoveries, comet photos, historical anniversaries, company profiles, website legal pages)."
+    " If no items match these criteria, respond with: No new opportunities, competitions, or events found today."
 )
 
 
 class AIEngine:
-    """Summarizes a batch of articles into per-category digests."""
+    """Classifies and summarizes a batch of articles into per-section digests."""
 
     def __init__(
         self,
@@ -46,41 +66,50 @@ class AIEngine:
         self._model = model or os.getenv("DEEPSEEK_MODEL") or DEFAULT_MODEL
 
     def build_digest(self, articles: List[Article]) -> Dict[str, List[dict]]:
-        """Return ``{category: [{title, url, summary}]}`` grouped by category.
-
-        Grouping is deterministic by each article's configured ``category``;
-        DeepSeek only supplies the two-sentence summaries. If summarization
-        fails, summaries are empty and the caller can fall back to titles-only.
-        """
+        """Return ``{section: [{title, url, summary}]}`` for kept articles only."""
         digest: Dict[str, List[dict]] = {cat: [] for cat in ALLOWED_CATEGORIES}
 
         for start in range(0, len(articles), MAX_ARTICLES_PER_CALL):
             chunk = articles[start : start + MAX_ARTICLES_PER_CALL]
-            summaries = self._summarize_chunk(chunk)
-            for index, article in enumerate(chunk):
-                category = (
-                    article.category
-                    if article.category in ALLOWED_CATEGORIES
-                    else "aerospace"
-                )
-                digest[category].append(
-                    {
-                        "title": article.title,
-                        "url": article.url,
-                        "summary": summaries.get(index, "").strip(),
-                    }
-                )
-
+            classified = self._classify_chunk(chunk)
+            if classified is None:
+                # API failure -> deterministic titles-only fallback by hint.
+                self._apply_fallback(digest, chunk)
+                continue
+            for section, items in classified.items():
+                for item in items:
+                    idx = item.get("id")
+                    if isinstance(idx, int) and 0 <= idx < len(chunk):
+                        article = chunk[idx]
+                        digest[section].append(
+                            {
+                                "title": article.title,
+                                "url": article.url,
+                                "summary": str(item.get("summary") or "").strip(),
+                            }
+                        )
         return digest
 
-    def _summarize_chunk(self, articles: List[Article]) -> Dict[int, str]:
-        """Summarize one chunk; returns ``{article_index: summary}``.
+    def _apply_fallback(
+        self, digest: Dict[str, List[dict]], articles: List[Article]
+    ) -> None:
+        """Route each article to its configured category with an empty summary."""
+        for article in articles:
+            category = (
+                article.category
+                if article.category in ALLOWED_CATEGORIES
+                else "internships"
+            )
+            digest[category].append(
+                {"title": article.title, "url": article.url, "summary": ""}
+            )
 
-        Returns an empty mapping on any failure so the caller can fall back to
-        a titles-only digest rather than crashing the whole run.
-        """
+    def _classify_chunk(
+        self, articles: List[Article]
+    ) -> Optional[Dict[str, List[dict]]]:
+        """Return ``{section: [{id, summary}]}``, or ``None`` on any failure."""
         payload = [
-            {"id": i, "title": a.title, "url": a.url, "category": a.category}
+            {"id": i, "title": a.title, "description": a.description or a.title}
             for i, a in enumerate(articles)
         ]
         try:
@@ -90,29 +119,36 @@ class AIEngine:
                     {"role": "system", "content": _SYSTEM_PROMPT},
                     {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
                 ],
-                temperature=0.3,
+                temperature=0.2,
             )
             content = response.choices[0].message.content or ""
             data = _extract_json(content)
-        except Exception as exc:
+        except Exception:
             logger.exception(
-                "DeepSeek summarization failed; using empty summaries for this batch."
+                "DeepSeek classification failed; using titles-only fallback."
             )
-            return {}
-
-        return self._normalize(data, articles)
+            return None
+        return self._normalize(data, len(articles))
 
     @staticmethod
-    def _normalize(data, articles: List[Article]) -> Dict[int, str]:
-        """Map the model's ``{id: summary}`` response onto real article indices."""
-        summaries: Dict[int, str] = {}
-        raw_items = data.get("articles", []) if isinstance(data, dict) else []
-        for item in raw_items:
-            if isinstance(item, dict) and "id" in item:
-                idx = item["id"]
-                if isinstance(idx, int) and 0 <= idx < len(articles):
-                    summaries[idx] = str(item.get("summary") or "").strip()
-        return summaries
+    def _normalize(data, count: int) -> Dict[str, List[dict]]:
+        """Keep only well-formed items whose ``id`` maps to a real article."""
+        result: Dict[str, List[dict]] = {cat: [] for cat in ALLOWED_CATEGORIES}
+        if not isinstance(data, dict):
+            return result
+        for section in ALLOWED_CATEGORIES:
+            items = data.get(section)
+            if not isinstance(items, list):
+                continue
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                idx = item.get("id")
+                if isinstance(idx, int) and 0 <= idx < count:
+                    result[section].append(
+                        {"id": idx, "summary": item.get("summary") or ""}
+                    )
+        return result
 
 
 def _extract_json(text: str) -> dict:

@@ -1,52 +1,57 @@
 {
   "sources": [
     {
-      "id": "spacenews",
-      "name": "SpaceNews",
-      "type": "rss",
-      "url": "https://spacenews.com/feed/",
-      "category": "aerospace"
-    },
-    {
-      "id": "nasa_breaking",
-      "name": "NASA Breaking News",
-      "type": "rss",
-      "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
-      "category": "aerospace"
-    },
-    {
-      "id": "esa",
-      "name": "ESA News",
-      "type": "rss",
-      "url": "https://www.esa.int/rssfeed",
-      "category": "aerospace"
-    },
-    {
-      "id": "space_com",
-      "name": "Space.com",
-      "type": "rss",
-      "url": "https://www.space.com/feeds/all",
-      "category": "aerospace"
-    },
-    {
-      "id": "flightglobal",
-      "name": "FlightGlobal",
+      "id": "nasa_internships",
+      "name": "NASA Internships & Careers",
       "type": "web",
-      "url": "https://www.flightglobal.com/",
-      "category": "aeronautics",
+      "url": "https://www.nasa.gov/learning-resources/internship-programs/",
+      "category": "internships",
       "css_selectors": {
-        "link": "a[href*='/news']",
+        "link": "a[href]",
         "title": "h3"
       }
     },
     {
-      "id": "aviation_week",
-      "name": "Aviation Week",
+      "id": "nasa_stem_gateway",
+      "name": "NASA STEM Gateway",
       "type": "web",
-      "url": "https://aviationweek.com/",
-      "category": "aeronautics",
+      "url": "https://www.nasa.gov/learning-resources/",
+      "category": "internships",
       "css_selectors": {
-        "link": "a[href*='/news']",
+        "link": "a[href]",
+        "title": "h2"
+      }
+    },
+    {
+      "id": "esa_academy",
+      "name": "ESA Academy (Student Opportunities)",
+      "type": "web",
+      "url": "https://www.esa.int/Education/ESA_Academy",
+      "category": "internships",
+      "css_selectors": {
+        "link": "a[href]",
+        "title": "h2"
+      }
+    },
+    {
+      "id": "esa_cansat",
+      "name": "ESA CanSat",
+      "type": "web",
+      "url": "https://www.esa.int/Education/CanSat",
+      "category": "competitions",
+      "css_selectors": {
+        "link": "a[href]",
+        "title": "h2"
+      }
+    },
+    {
+      "id": "american_cansat",
+      "name": "American CanSat Competition",
+      "type": "web",
+      "url": "https://www.cansatcompetition.com/",
+      "category": "competitions",
+      "css_selectors": {
+        "link": "a[href]",
         "title": "h2"
       }
     },
@@ -62,14 +67,22 @@
       }
     },
     {
-      "id": "aiaa_events",
-      "name": "AIAA Events",
+      "id": "aiaa_student_conferences",
+      "name": "AIAA Student Conferences",
       "type": "web",
-      "url": "https://www.aiaa.org/events-learning/events",
-      "category": "competitions",
+      "url": "https://www.aiaa.org/events-learning/events/student-conferences",
+      "category": "conferences",
       "css_selectors": {
-        "link": "a[href*='event']"
+        "link": "a[href*='event']",
+        "title": "h2"
       }
+    },
+    {
+      "id": "esa_rss",
+      "name": "ESA News (opportunities catch-all)",
+      "type": "rss",
+      "url": "https://www.esa.int/rssfeed",
+      "category": "internships"
     }
   ]
 }

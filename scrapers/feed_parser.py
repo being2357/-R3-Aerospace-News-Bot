@@ -7,6 +7,7 @@ to ``feedparser`` for parsing, which tolerates both RSS and Atom formats.
 from __future__ import annotations
 
 import logging
+import re
 from typing import List
 
 import feedparser
@@ -15,6 +16,14 @@ from models import Article
 from scrapers.http_utils import fetch_url
 
 logger = logging.getLogger(__name__)
+
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _strip_html(text: str) -> str:
+    """Remove HTML tags from a feed summary and collapse whitespace."""
+    text = _HTML_TAG_RE.sub(" ", text or "")
+    return " ".join(text.split())
 
 
 def fetch_articles(source: dict) -> List[Article]:
@@ -40,6 +49,9 @@ def fetch_articles(source: dict) -> List[Article]:
         if not title or not link:
             continue
         published = entry.get("published") or entry.get("updated") or None
+        description = _strip_html(
+            entry.get("summary") or entry.get("description") or ""
+        )
         articles.append(
             Article(
                 title=title,
@@ -47,6 +59,7 @@ def fetch_articles(source: dict) -> List[Article]:
                 source=name,
                 category=category,
                 published=published,
+                description=description or None,
             )
         )
 

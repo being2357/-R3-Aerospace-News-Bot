@@ -1,52 +1,77 @@
-# R3 Aerospace News Bot
+# R3 Aerospace Opportunities Digest
 
-A production-ready Python bot that aggregates aerospace, aeronautics, and
-competitions/events news from RSS feeds and HTML pages, logs every article to
-Google Sheets, summarizes new items with the DeepSeek API, and posts a
-categorized daily digest to Telegram — all run automatically on GitHub Actions.
+A production-ready Python bot that discovers **aerospace-adjacent opportunities
+for students and young professionals** — internships, competitions/hackathons,
+and conferences/events — from RSS feeds and web pages, classifies and
+summarizes them with the DeepSeek API, logs them to Google Sheets, and serves a
+categorized digest through a Telegram command bot. A GitHub Actions cron keeps
+the digest fresh daily.
 
-## Features
+## What it does
 
-- **Multi-source ingestion** — RSS/Atom via `feedparser`, plus an HTML fallback
-  via `httpx` + `BeautifulSoup` with configurable CSS selectors.
-- **Deduplication** — existing URLs are read from Column D of the Google Sheet;
-  only unseen articles move forward.
+- **Targeted ingestion** — RSS/Atom via `feedparser`, plus an HTML fallback via
+  `httpx` + `BeautifulSoup`, pointed at careers, opportunity, and event pages
+  (NASA internships, ESA Academy, CanSat, Space Apps, AIAA student conferences).
+- **Two-stage relevance filtering** — a keyword pre-filter in `main.py` drops
+  navigation links, boilerplate, and general space news; DeepSeek then strictly
+  classifies each item and **discards anything that doesn't fit**.
+- **Strict three-section output**:
+  - 🎓 Internships & Student Opportunities
+  - 🏆 Competitions & Hackathons
+  - 📅 Conferences & Upcoming Events
+- **Deduplication** — URL dedup against Google Sheets (Column D) plus same-source
+  title-similarity dedup so recurring posts (team profiles, event reminders)
+  collapse into the primary announcement.
 - **AI summaries** — DeepSeek (OpenAI-compatible SDK) writes two-sentence
-  summaries per article, grouped into three fixed categories.
-- **Retry safety** — if a send fails, logged articles stay "unsent" and are
-  retried on the next run.
-- **Telegram delivery** — HTML-formatted digest, auto-split past Telegram's
-  4096-character limit.
+  summaries per article.
+- **Telegram command bot** — `/start`, `/latest`, and `/help`, backed by a local
+  `latest_digest.txt` cache.
+- **Daily automation** — a GitHub Actions cron (18:00 UTC) runs the pipeline and
+  commits the refreshed digest back to the repository.
 
 ## Architecture
 
 ```
 config/sources.json ──► scrapers/feed_parser.py   ─┐
-                       scrapers/web_scraper.py     ├─► main.py ─► summarizer/ai_engine.py
-                       scrapers/http_utils.py      │                    │
-                                                  │                    ▼
-                       storage/sheets_client.py ◄──┴────────── notifier/telegram_bot.py
+                        scrapers/web_scraper.py     ├─► main.py ─► summarizer/ai_engine.py
+                        scrapers/http_utils.py      │      │                 │
+                                                   │      │                 ▼
+                        storage/sheets_client.py ◄──┴── latest_digest.txt ─ notifier/telegram_bot.py
 ```
 
 | Path | Purpose |
 |---|---|
-| `config/sources.json` | Source registry (RSS + web targets) |
-| `scrapers/feed_parser.py` | RSS/Atom ingestion |
+| `config/sources.json` | Source registry (RSS + web targets, category hint) |
+| `scrapers/feed_parser.py` | RSS/Atom ingestion (captures title + summary) |
 | `scrapers/web_scraper.py` | HTML fallback scraper |
 | `scrapers/http_utils.py` | Shared fetch with timeout/retry/User-Agent |
 | `storage/sheets_client.py` | Google Sheets auth + dedup + logging |
-| `summarizer/ai_engine.py` | DeepSeek summarization |
-| `notifier/telegram_bot.py` | Telegram HTML delivery + message splitting |
-| `main.py` | Orchestrator |
-| `.github/workflows/daily_digest.yml` | Daily CRON job (18:00 UTC) |
-| `models.py` | Shared `Article` dataclass + category constants |
+| `summarizer/ai_engine.py` | DeepSeek classification + summarization |
+| `notifier/telegram_bot.py` | Telegram HTML delivery + command bot |
+| `main.py` | Orchestrator + topic filter + dedup + digest cache |
+| `.github/workflows/daily_digest.yml` | Daily cron + digest auto-commit |
+| `models.py` | Shared `Article` dataclass + category/section constants |
+
+## How it runs
+
+There are two entry points:
+
+1. **Daily pipeline** — `python main.py` scrapes sources, filters, classifies,
+   summarizes, logs to Sheets, posts the digest to the configured Telegram chat,
+   and writes `latest_digest.txt`.
+2. **Command bot** — `python -m notifier.telegram_bot` long-polls Telegram and
+   answers commands from the `latest_digest.txt` cache.
+
+The GitHub Actions cron runs the daily pipeline and commits `latest_digest.txt`
+back to the repository, so the digest is versioned (and available after a
+`git pull` for a bot running elsewhere).
 
 ## Prerequisites
 
 - Python 3.10+
-- A [Google Cloud](https://console.cloud.google.com/) project with a service account
+- A Google Cloud project with a service account (Sheets + Drive APIs enabled)
 - A Google Sheet
-- A [Telegram bot](https://core.telegram.org/bots#how-do-i-create-a-bot)
+- A Telegram bot (via [@BotFather](https://t.me/BotFather))
 - A [DeepSeek API key](https://platform.deepseek.com/)
 
 ## Setup
@@ -59,25 +84,29 @@ pip install -r requirements.txt
 
 ### 2. Configure environment variables
 
-Copy `.env.example` to `.env` and fill in the values:
-
 ```bash
 cp .env.example .env
 ```
 
-For local runs, `python-dotenv` loads `.env` automatically.
+Then fill in the values (see `.env.example`):
 
-### 3. Google Sheets + Service Account
+| Variable | Purpose |
+|---|---|
+| `GCP_SERVICE_ACCOUNT_KEY` | Base64-encoded Google service-account JSON |
+| `GOOGLE_SHEET_ID` | The `<ID>` from `spreadsheets/d/<ID>/edit` |
+| `DEEPSEEK_API_KEY` | DeepSeek API key |
+| `DEEPSEEK_MODEL` | Optional model override (default `deepseek-chat`) |
+| `TELEGRAM_BOT_TOKEN` | Bot token from @BotFather |
+| `TELEGRAM_CHAT_ID` | Chat/channel that receives the daily post |
 
-1. In Google Cloud Console, create (or open) a project and
-   **enable the Google Sheets API and Google Drive API**.
-2. Create a **Service Account** (IAM & Admin → Service Accounts), then create a
-   JSON key and download it.
-3. Create a Google Sheet and **share it (Editor) with the service-account
-   email** (the `client_email` field inside the JSON key).
-4. Copy the **Sheet ID** from the URL into `GOOGLE_SHEET_ID`:
-   `https://docs.google.com/spreadsheets/d/<THIS_PART>/edit`.
-5. Base64-encode the JSON key and put it in `GCP_SERVICE_ACCOUNT_KEY`:
+### 3. Google Sheets + service account
+
+1. Enable the **Sheets API** and **Drive API** in Google Cloud Console.
+2. Create a **service account** and download its JSON key.
+3. Create a Google Sheet and share it (Editor) with the service-account email
+   (the `client_email` field inside the JSON key).
+4. Set `GOOGLE_SHEET_ID` to the Sheet ID.
+5. Base64-encode the JSON key into `GCP_SERVICE_ACCOUNT_KEY`:
 
    **Linux/macOS:**
    ```bash
@@ -89,26 +118,27 @@ For local runs, `python-dotenv` loads `.env` automatically.
    [Convert]::ToBase64String([IO.File]::ReadAllBytes("service-account.json"))
    ```
 
-The bot reads/writes the **first sheet** of the workbook with these columns:
+The bot writes the **first sheet** with these columns (the header row is created
+automatically on first run):
 
 ```
 A: Timestamp   B: Source   C: Title   D: URL   E: Category   F: Sent Flag
 ```
 
-The header row is created automatically on first run.
+`Category` holds one of `internships`, `competitions`, or `conferences`.
 
 ### 4. Telegram
 
-1. Create a bot with [@BotFather](https://t.me/BotFather) and copy the token
-   into `TELEGRAM_BOT_TOKEN`.
-2. Put the numeric chat/channel ID into `TELEGRAM_CHAT_ID`. For a private chat,
-   message your bot and read the ID from the `getUpdates` endpoint, or add the
-   bot to a channel and use the channel ID (e.g. `@mychannel`).
+1. Create a bot with [@BotFather](https://t.me/BotFather) and set
+   `TELEGRAM_BOT_TOKEN`.
+2. Set `TELEGRAM_CHAT_ID` to the chat/channel for the daily post. For a private
+   chat, message your bot and read the ID from the `getUpdates` endpoint, or add
+   the bot to a channel and use the channel ID (e.g. `@mychannel`).
 
 ### 5. DeepSeek
 
-Set `DEEPSEEK_API_KEY`. Optionally set `DEEPSEEK_MODEL` to override the default
-(`deepseek-chat`), e.g. `deepseek-v4-flash`.
+Set `DEEPSEEK_API_KEY` (and optionally `DEEPSEEK_MODEL` to override the default
+`deepseek-chat`, e.g. `deepseek-v4-flash`).
 
 ### 6. Configure sources
 
@@ -116,24 +146,27 @@ Edit `config/sources.json`. Each entry supports:
 
 ```json
 {
-  "id": "spacenews",
-  "name": "SpaceNews",
-  "type": "rss",
-  "url": "https://spacenews.com/feed/",
-  "category": "aerospace"
+  "id": "esa_academy",
+  "name": "ESA Academy (Student Opportunities)",
+  "type": "web",
+  "url": "https://www.esa.int/Education/ESA_Academy",
+  "category": "internships",
+  "css_selectors": { "link": "a[href]", "title": "h2" }
 }
 ```
 
 - `type` — `"rss"` or `"web"`.
-- `category` — `"aerospace"`, `"aeronautics"`, or `"competitions"`.
+- `category` — a *hint* (`internships`, `competitions`, or `conferences`). The
+  AI re-classifies every article, so this only biases the fallback path.
 - `css_selectors` — for `"web"` sources only. `link` (required) matches `<a>`
   elements; `title` (optional) selects the title within the anchor.
 
 > **Note:** web selectors are site-specific and can break if a site redesigns.
-> If a `web` source yields nothing, inspect the page and update its
-> `css_selectors`.
+> If a `web` source yields nothing, inspect the page and update `css_selectors`.
 
 ## Running locally
+
+Daily pipeline:
 
 ```bash
 python main.py
@@ -141,30 +174,47 @@ python main.py
 python main.py --config path/to/sources.json
 ```
 
-If there are no new articles, the bot exits silently (no Telegram message).
-Set `LOG_LEVEL=DEBUG` for verbose output.
+Command bot (run from the project root, with dependencies installed — it imports
+`main` to reach the cache helper):
+
+```bash
+python -m notifier.telegram_bot
+```
+
+Commands:
+
+| Command | Response |
+|---|---|
+| `/start` | Welcome message + the latest digest |
+| `/latest` | The latest digest |
+| `/help` | List of available commands |
+
+If there are no new opportunities, the cache is set to
+"No new opportunities, competitions, or events found today." and no Telegram
+post is sent. Set `LOG_LEVEL=DEBUG` for verbose output.
 
 ## GitHub Actions
 
-1. Push this repository to GitHub.
-2. In **Settings → Secrets and variables → Actions**, add these repository
-   secrets: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `DEEPSEEK_API_KEY`,
+1. Push the repository to GitHub.
+2. Add these secrets under **Settings → Secrets and variables → Actions**:
+   `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `DEEPSEEK_API_KEY`,
    `GCP_SERVICE_ACCOUNT_KEY`, `GOOGLE_SHEET_ID`.
-3. The workflow runs daily at **18:00 UTC** (`0 18 * * *`) and can also be
-   triggered manually via **Actions → Run workflow**.
+3. The workflow runs daily at **18:00 UTC** (and on manual dispatch), then
+   commits `latest_digest.txt` back to the repository. The job declares
+   `permissions: contents: write`, which the auto-commit requires.
 
-> Note: GitHub Actions schedules are approximate and can be delayed by minutes;
-> the cron time is always interpreted in UTC.
+> GitHub Actions schedules are approximate and can be delayed by minutes; the
+> cron time is always interpreted in UTC.
 
 ## Error handling
 
 - **Network failures** — every outbound request uses timeouts and retries with
   backoff; one failing source never crashes the whole run.
 - **Empty/invalid feeds** — logged and skipped.
-- **DeepSeek failure** — the bot falls back to a titles-and-links-only digest
-  so the day's news is still delivered.
-- **Telegram failure** — the run exits non-zero (visible in Actions) and the
-  articles remain "unsent" so they are retried on the next run.
+- **DeepSeek failure** — falls back to a titles-and-links-only digest grouped by
+  each source's category hint.
+- **Telegram send failure** — the run exits non-zero (visible in Actions) and
+  the affected articles stay "unsent" so they are retried on the next run.
 - **Auth failures** — raised with a clear message (e.g. "share the sheet with
   the service-account email").
 
@@ -175,5 +225,6 @@ Set `LOG_LEVEL=DEBUG` for verbose output.
 | `Could not open the Google Sheet` | Sheet not shared with the service-account email, or wrong `GOOGLE_SHEET_ID`. |
 | `Failed to decode GCP_SERVICE_ACCOUNT_KEY` | The value isn't valid Base64 of a service-account JSON. |
 | `DEEPSEEK_API_KEY is not set` | Missing secret / `.env` entry. |
-| `Telegram API returned an error` | Wrong `TELEGRAM_CHAT_ID` or token. |
-| No message, no error | No new articles — this is the expected silent exit. |
+| `/latest` returns "No digest available yet" | `latest_digest.txt` not generated yet — run `python main.py`. |
+| `getUpdates` error when running the bot | Wrong `TELEGRAM_BOT_TOKEN`. |
+| No message, no error | No new opportunities — this is the expected silent exit. |

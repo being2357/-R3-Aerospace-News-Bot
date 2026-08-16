@@ -4,29 +4,24 @@ from __future__ import annotations
 
 import html
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Dict, List
 
 import httpx
 
-from models import ALLOWED_CATEGORIES
+from models import ALLOWED_CATEGORIES, SECTION_HEADERS
 
 logger = logging.getLogger(__name__)
 
 TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendMessage"
 MAX_MESSAGE_LENGTH = 4096
 
-SECTION_HEADERS = {
-    "aerospace": "🚀 Aerospace & Spaceflight",
-    "aeronautics": "✈️ Aeronautics & Aviation",
-    "competitions": "🏆 Competitions & Events",
-}
-
 
 def format_digest(digest: Dict[str, List[dict]]) -> str:
     """Render a categorized digest into a single Telegram-HTML string."""
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    blocks = [f"<b>🛰️ Aerospace Daily Digest — {date_str}</b>"]
+    blocks = [f"<b>🛰️ Aerospace Opportunities Digest — {date_str}</b>"]
 
     for category in ALLOWED_CATEGORIES:
         items = digest.get(category, [])
@@ -110,3 +105,88 @@ def _escape(text: str) -> str:
 def _escape_attr(text: str) -> str:
     """Escape an attribute value for Telegram HTML (also escapes quotes)."""
     return html.escape(text, quote=True)
+
+
+# ---------------------------------------------------------------------------
+# Command handling (basic /start, /latest, /help interface)
+# ---------------------------------------------------------------------------
+START_REPLY = "Welcome to R3 Aerospace Digest! Use /latest to view recent opportunities."
+HELP_REPLY = "Available commands: /start, /latest, /help"
+
+
+def _latest_digest() -> str:
+    """Return the cached digest, importing main lazily to avoid an import cycle."""
+    from main import get_latest_digest  # deferred: main.py imports this module
+
+    return get_latest_digest()
+
+
+def build_reply(text: str) -> str | None:
+    """Map an incoming message to a reply, or None if it is not a command."""
+    stripped = (text or "").strip()
+    if not stripped:
+        return None
+    command = stripped.split()[0].split("@")[0].lower()
+    if command == "/start":
+        return f"{START_REPLY}\n\n{_latest_digest()}"
+    if command == "/latest":
+        return _latest_digest()
+    if command == "/help":
+        return HELP_REPLY
+    return None
+
+
+def handle_update(update: dict, token: str) -> bool:
+    """Dispatch a single getUpdates update; send a reply if it is a command."""
+    message = update.get("message") or {}
+    text = message.get("text")
+    chat_id = message.get("chat", {}).get("id")
+    if not text or chat_id is None:
+        return False
+    reply = build_reply(text)
+    if reply is None:
+        return False
+    for chunk in split_message(reply):
+        send_message(token, str(chat_id), chunk)
+    return True
+
+
+def run_polling(token: str, timeout: int = 30) -> None:
+    """Long-poll getUpdates and handle commands until interrupted."""
+    offset = 0
+    url = f"https://api.telegram.org/bot{token}/getUpdates"
+    while True:
+        try:
+            response = httpx.post(
+                url,
+                json={"offset": offset, "timeout": timeout},
+                timeout=timeout + 10,
+            )
+            response.raise_for_status()
+            data = response.json()
+            if not data.get("ok"):
+                logger.error("getUpdates returned an error: %s", data)
+                time.sleep(5)
+                continue
+            for update in data.get("result", []):
+                offset = max(offset, int(update.get("update_id", 0)) + 1)
+                try:
+                    handle_update(update, token)
+                except Exception as exc:
+                    logger.exception("Failed to handle an update: %s", exc)
+        except httpx.HTTPError as exc:
+            logger.warning("getUpdates request failed: %s", exc)
+            time.sleep(5)
+
+
+if __name__ == "__main__":
+    import os
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+    if not bot_token:
+        raise SystemExit("TELEGRAM_BOT_TOKEN is not set.")
+    run_polling(bot_token)
