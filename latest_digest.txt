@@ -1,29 +1,29 @@
-<b>🛰️ Aerospace Opportunities Digest — 2026-08-16</b>
+<b>🛰️ Aerospace Opportunities Digest — 2026-08-17</b>
 
 <b>🎓 Internships &amp; Student Opportunities</b>
-• <a href="https://www.nasa.gov/learning-resources/nasa-stem-opportunities-activities/">NASA STEM Opportunities and Activities For Students</a>
-  <i>NASA STEM Opportunities and Activities for Students provides a central hub for student engagement. It lists various programs and resources for learners interested in space and science.</i>
-• <a href="https://www.nasa.gov/learning-resources/nasa-internship-programs/">Internships and Fellowships</a>
-  <i>Internships and Fellowships at NASA offer paid opportunities for students to work on real projects. These programs are open to high school, undergraduate, and graduate students.</i>
-• <a href="https://www.nasa.gov/learning-resources/national-space-grant-college-and-fellowship-project/">Space Grant</a>
-  <i>Space Grant is a NASA-funded program that supports students through scholarships, fellowships, and internships. It operates through a national network of consortia in each state.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy/ESA_Academy_opportunities3">Highlight Agency Current opportunities for university students Open</a>
-  <i>Highlight Agency Current opportunities for university students are open for applications. This listing includes various internships and programs for university-level students.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy/ESA_Training_Programme_Application_procedure">ESA Training Programme Application procedure</a>
-  <i>The ESA Training Programme application procedure outlines steps for students to apply. It covers eligibility and required documents for training opportunities.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy/Training_Future_Opportunities">Training Future opportunities</a>
-  <i>Training Future opportunities at ESA lists upcoming programs for students and young professionals. These include internships and other educational placements.</i>
-• <a href="https://www.iist.ac.in/summer-internship">Internship &amp; Student Visits</a>
-  <i>Internship &amp; Student Visits at ESA provide hands-on experience in space projects. These visits are designed for students to learn about agency operations.</i>
+• <a href="https://stemgateway.nasa.gov/public/s/explore-opportunities">Click Here to Explore Our Opportunities and Apply</a>
+  <i>This is a generic link to an opportunities page with no specific internship details. It does not provide any concrete information about a particular program.</i>
+• <a href="https://www.nasa.gov/careers/how-to-apply/#How-To-Apply">USA Jobs</a>
+  <i>USA Jobs is a federal employment portal that lists government positions, including some internships. It is a general resource rather than a specific aerospace internship announcement.</i>
+• <a href="https://www.nasa.gov/learning-resources/latest-internship-news/">More Internship News</a>
+  <i>This item is a navigation link to more internship news, not a specific opportunity. It lacks any details about a particular internship program.</i>
+• <a href="https://www.nasa.gov/learning-resources/internship-programs/intern-frequently-asked-questions/#faqpaid">Are Internships Paid?</a>
+  <i>This is a FAQ entry about whether internships are paid, without referencing any specific program. It provides general information rather than an actual opportunity.</i>
+• <a href="https://www.nasa.gov/learning-resources/internship-programs/intern-frequently-asked-questions/#faqhousing">Can I  apply for multiple internships?</a>
+  <i>This is a FAQ entry about applying to multiple internships, with no specific program details. It is general guidance rather than a concrete opportunity.</i>
+• <a href="https://www.nasa.gov/learning-resources/internship-programs/">Internships</a>
+  <i>This is a generic page titled 'Internships' with no specific program information. It serves as a navigation hub rather than a distinct opportunity.</i>
+• <a href="https://www.esa.int/Education/ESA_Academy/Training_Current_Opportunities">Training Current Opportunities</a>
+  <i>This item refers to training current opportunities but provides no specific details about any program. It is too vague to be considered a concrete internship.</i>
+• <a href="https://www.esa.int/Education/Engagement/About_the_Collaboration_opportunities">About the Collaboration opportunities</a>
+  <i>This is a page about collaboration opportunities without specific program details. It does not clearly fit the internship category as it lacks concrete information.</i>
+• <a href="https://www.esa.int/Education/Engagement/Short_Course_Scholarship_programme">Short Course Scholarship programme</a>
+  <i>This is a short course scholarship programme, which is not an internship. It is a training opportunity rather than a student internship.</i>
+• <a href="https://www.esa.int/About_Us/Careers_at_ESA">Careers at ESA</a>
+  <i>This is a general careers page at ESA, not a specific internship posting. It lists career options but does not detail a particular student opportunity.</i>
 
 <b>🏆 Competitions &amp; Hackathons</b>
-• <a href="https://www.esa.int/Education/CanSat/CanSat_Space_Engineer_for_a_Day_2026_event_inspires_next_space_generation">Story Agency CanSat Space Engineer for a Day 2026 event inspires next sp… 22/06/2026 826 views 20 likes Read</a>
-  <i>The CanSat Space Engineer for a Day 2026 event inspires students to design and build can-sized satellites. It is scheduled for 22/06/2026 and encourages participation in space engineering.</i>
-• <a href="https://www.esa.int/Education/Teachers_Corner/Build_your_can-sized_satellite_with_CanSat_2024-2025">Story Agency Build your can-sized satellite with CanSat 2024-2025 17/09/2024 10100 views 12 likes Read</a>
-  <i>Build your can-sized satellite with CanSat 2024-2025 is a competition for students to create functional satellites in a can. The event ran from 17/09/2024 and attracted significant interest.</i>
-• <a href="https://cansat.esa.int/">Join CanSat</a>
-  <i>Join CanSat to participate in a hands-on satellite building challenge. This competition is open to student teams and provides a practical introduction to space technology.</i>
-
-<b>📅 Conferences &amp; Upcoming Events</b>
-• <a href="https://drdo.gov.in/drdo/en/resources/conference">Conference</a>
-  <i>Conference is a general listing for upcoming aerospace-related conferences. It serves as a placeholder for event details and registration information.</i>
+• <a href="https://www.facebook.com/cansatsineurope">Focus on CanSat on Facebook CanSat on Facebook Open</a>
+  <i>This item focuses on CanSat, a competition where students build and launch mini satellites. It is a specific student competition in aerospace.</i>
+• <a href="https://drdo.gov.in/drdo/en/offerings/competitions-and-awards">Competitions and Awards</a>
+  <i>This is a page titled 'Competitions and Awards' but lacks specific details about any particular competition. It is a general listing rather than a concrete event.</i>
