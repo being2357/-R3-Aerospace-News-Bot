@@ -1,29 +1,5 @@
-<b>🛰️ Aerospace Opportunities Digest — 2026-08-17</b>
-
-<b>🎓 Internships &amp; Student Opportunities</b>
-• <a href="https://stemgateway.nasa.gov/public/s/explore-opportunities">Click Here to Explore Our Opportunities and Apply</a>
-  <i>This is a generic link to an opportunities page with no specific internship details. It does not provide any concrete information about a particular program.</i>
-• <a href="https://www.nasa.gov/careers/how-to-apply/#How-To-Apply">USA Jobs</a>
-  <i>USA Jobs is a federal employment portal that lists government positions, including some internships. It is a general resource rather than a specific aerospace internship announcement.</i>
-• <a href="https://www.nasa.gov/learning-resources/latest-internship-news/">More Internship News</a>
-  <i>This item is a navigation link to more internship news, not a specific opportunity. It lacks any details about a particular internship program.</i>
-• <a href="https://www.nasa.gov/learning-resources/internship-programs/intern-frequently-asked-questions/#faqpaid">Are Internships Paid?</a>
-  <i>This is a FAQ entry about whether internships are paid, without referencing any specific program. It provides general information rather than an actual opportunity.</i>
-• <a href="https://www.nasa.gov/learning-resources/internship-programs/intern-frequently-asked-questions/#faqhousing">Can I  apply for multiple internships?</a>
-  <i>This is a FAQ entry about applying to multiple internships, with no specific program details. It is general guidance rather than a concrete opportunity.</i>
-• <a href="https://www.nasa.gov/learning-resources/internship-programs/">Internships</a>
-  <i>This is a generic page titled 'Internships' with no specific program information. It serves as a navigation hub rather than a distinct opportunity.</i>
-• <a href="https://www.esa.int/Education/ESA_Academy/Training_Current_Opportunities">Training Current Opportunities</a>
-  <i>This item refers to training current opportunities but provides no specific details about any program. It is too vague to be considered a concrete internship.</i>
-• <a href="https://www.esa.int/Education/Engagement/About_the_Collaboration_opportunities">About the Collaboration opportunities</a>
-  <i>This is a page about collaboration opportunities without specific program details. It does not clearly fit the internship category as it lacks concrete information.</i>
-• <a href="https://www.esa.int/Education/Engagement/Short_Course_Scholarship_programme">Short Course Scholarship programme</a>
-  <i>This is a short course scholarship programme, which is not an internship. It is a training opportunity rather than a student internship.</i>
-• <a href="https://www.esa.int/About_Us/Careers_at_ESA">Careers at ESA</a>
-  <i>This is a general careers page at ESA, not a specific internship posting. It lists career options but does not detail a particular student opportunity.</i>
+<b>🛰️ Aerospace Opportunities Digest — 2026-08-18</b>
 
 <b>🏆 Competitions &amp; Hackathons</b>
-• <a href="https://www.facebook.com/cansatsineurope">Focus on CanSat on Facebook CanSat on Facebook Open</a>
-  <i>This item focuses on CanSat, a competition where students build and launch mini satellites. It is a specific student competition in aerospace.</i>
-• <a href="https://drdo.gov.in/drdo/en/offerings/competitions-and-awards">Competitions and Awards</a>
-  <i>This is a page titled 'Competitions and Awards' but lacks specific details about any particular competition. It is a general listing rather than a concrete event.</i>
+• <a href="https://www.nasa.gov/aeronautics/nasa-student-aviation-challenge-focuses-on-nations-infrastructure/">3 min read NASA Student Aviation Challenge Focuses on Nation’s Infrastructure article 54 seconds ago</a>
+  <i>NASA's Student Aviation Challenge is now open, focusing on the nation's infrastructure. Students can participate in this aviation-themed competition to develop innovative solutions.</i>
