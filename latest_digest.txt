@@ -1,5 +1,15 @@
-<b>🛰️ Aerospace Opportunities Digest — 2026-08-18</b>
+<b>🛰️ Aerospace Opportunities Digest — 2026-08-19</b>
+
+<b>🎓 Internships &amp; Student Opportunities</b>
+• <a href="https://www.nasa.gov/learning-resources/career-spotlight-mechanic-ages-14-18/">Article 4 Min Read Career Spotlight: Mechanic (Ages 14-18)</a>
+  <i>This article is a career spotlight aimed at students aged 14-18, focusing on the role of a mechanic in aerospace contexts. It provides educational insight into the profession rather than a direct application opportunity.</i>
+• <a href="https://www.esa.int/Education/Engagement/Academic_Scholarship_programme">Academic Scholarship programme</a>
+  <i>The Academic Scholarship programme offers financial support for students pursuing aerospace-related studies. Details on eligibility and application are not provided in the supplied text.</i>
 
 <b>🏆 Competitions &amp; Hackathons</b>
-• <a href="https://www.nasa.gov/aeronautics/nasa-student-aviation-challenge-focuses-on-nations-infrastructure/">3 min read NASA Student Aviation Challenge Focuses on Nation’s Infrastructure article 54 seconds ago</a>
-  <i>NASA's Student Aviation Challenge is now open, focusing on the nation's infrastructure. Students can participate in this aviation-themed competition to develop innovative solutions.</i>
+• <a href="https://www.nasa.gov/centers-and-facilities/johnson/nasa-challenge-tests-wheel-designs-for-moon-base-mobility/">NASA Challenge Tests Wheel Designs for Moon Base Mobility</a>
+  <i>NASA has issued a challenge for designing wheel concepts intended for lunar base mobility. This competition invites participants to submit innovative wheel designs for Moon exploration.</i>
+
+<b>📅 Conferences &amp; Upcoming Events</b>
+• <a href="https://www.esa.int/Education/ESA_Academy/Symposium_on_Space_Educational_Activities2">Symposium on Space Educational Activities</a>
+  <i>The Symposium on Space Educational Activities is an upcoming event focused on space education. It likely includes presentations and networking for students and young professionals in aerospace.</i>
